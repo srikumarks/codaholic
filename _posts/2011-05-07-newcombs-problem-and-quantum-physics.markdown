@@ -2,6 +2,9 @@
 layout: post
 title: "Newcomb's problem and quantum physics"
 description: ""
+sharing: true
+footer: true
+categories: science
 ---
 
 How would [Newcomb's problem] look like in the physical world, taking quantum

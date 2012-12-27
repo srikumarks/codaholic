@@ -2,6 +2,9 @@
 layout: post
 title: "Toy language using j-expressions"
 description: ""
+sharing: true
+footer: true
+categories: javascript
 ---
 
 Posted a "stream of thought" compiler for a toy language based

@@ -2,6 +2,10 @@
 layout: post
 title: "J-expressions"
 description: ""
+comments: true
+sharing: true
+footer: true
+categories: javascript
 ---
 
 [JSON] has become a kind of de-facto standard for sharing data among services
@@ -11,7 +15,7 @@ it. What's more, they have also had the luxury of using the same syntax for
 sharing *logic* .. and in fact take it for granted. This post is a proposal to
 bring that "luxury" to the web programming world.
 
-**Status:** Draft. Comments welcome. ({% include hnsubmit %})
+**Status:** Draft. Comments welcome.
 
 ## Why is it useful to be able to share logic? ##
 

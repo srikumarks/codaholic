@@ -2,6 +2,9 @@
 layout: post
 title: "A mental model for variables and closures in Javascript"
 description: ""
+sharing: true
+footer: true
+categories: javascript
 ---
 
 Closures and variables have a strained relationship in Javascript that causes
