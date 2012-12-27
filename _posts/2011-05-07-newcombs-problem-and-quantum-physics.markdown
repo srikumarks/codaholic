@@ -22,6 +22,8 @@ actually need to simulate me in order to ensure a correlation between its
 variable and my choice, potentially in another galaxy, of whether to pick A+B
 or B?
 
+<!-- more -->
+
 Say `|Oab>` and `|Ob>` are the two eigenstates of Omega's variable (w.r.t.
 some operator it has) and the box system in front of me similarly has two
 eigenstates `|Cab>` and `|Cb>` ("C" for "choice") and my "action" is simply a

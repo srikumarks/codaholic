@@ -19,7 +19,8 @@ Straight forward. You just type your text in the provided box using normal
 roman characters first - ex: "Sankarabharanam". Once you've typed that in,
 you select each character to which you want to apply diacritical marks and
 click on the mark you want. You can also press the number key corresponding
-to the diacritical mark you want for the selected character - ex: "Śankarābharṇam".
+to the diacritical mark you want for the selected character. With this,
+you can get "Śankarābharaṇam".
 
 Your text is automatically saved to local storage, so you can visit the page
 any time and retrieve your text. You'll *never* lose text you key in.

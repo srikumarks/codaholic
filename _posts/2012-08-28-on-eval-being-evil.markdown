@@ -15,6 +15,8 @@ compiler wouldn't be possible without `eval` (directly or indirectly). So, in
 this post, I wish to explore what appears interesting about `eval` that is
 relevant to building such DSLs.
 
+<!-- more -->
+
 For this post, I'll stick to the behaviour of `eval` in the **Chrome** browser
 (i.e. the V8 engine, which also applies to [Node.js]). We'll go through a
 number of contexts and examine how `eval` behaves in each of those. You can

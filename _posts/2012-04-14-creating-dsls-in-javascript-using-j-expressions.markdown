@@ -24,6 +24,8 @@ to explain the kinds of scenarios in which one might consider building a DSL,
 which is important to have an idea about. Later, I get into the actual
 representation using JSON.
 
+<!-- more -->
+
 ## When to make a DSL? .. or "Hunting of the Closure". ##
 
 Under normal circumstances, you should consider developing your abstractions as

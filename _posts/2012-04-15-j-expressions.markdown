@@ -17,6 +17,8 @@ bring that "luxury" to the web programming world.
 
 **Status:** Draft. Comments welcome.
 
+<!-- more -->
+
 ## Why is it useful to be able to share logic? ##
 
 If you've already bought into Lisp, you may not need much convincing here.  If

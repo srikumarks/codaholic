@@ -11,6 +11,8 @@ Google has open sourced the [Tuna] set of effects used in their [Jam with Chrome
 project. Here, I collect some thoughts about the code design decisions for their
 effects framework, since I myself have written [Steller].
 
+<!-- more -->
+
 ## Parameters
 
 In Tuna, the effects module's parameters are presented to the API user as

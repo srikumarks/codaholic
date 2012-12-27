@@ -16,6 +16,8 @@ with any given piece of code.
 I came up with such a mental model a while back and posted it on [Hacker News]
 ... which I reproduce here.
 
+<!-- more -->
+
 Pretend that variables refer to storage locations in an array and you
 identify them using indices - `v = [..., v[100], v[101], v[102], v[103], ....]`
 

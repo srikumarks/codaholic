@@ -21,6 +21,8 @@ from the data in your social network’s history that is very highly likely to b
 unique to you and very difficult to duplicate in a "prove your identity"
 challenge.
 
+<!-- more -->
+
 Let us consider a person’s "social history" (say on Facebook for simplicity,
 but the same concept will also apply to google+) – i.e. The linear sequence of
 events related to the establishment and termination of all my connections with

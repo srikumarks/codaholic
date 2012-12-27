@@ -25,6 +25,8 @@ to adapt to changes in understanding about the problem being modelled.
 
 So, what *are* classes? ... really?
 
+<!-- more -->
+
 ## Classes as machines ##
 
 When you write a class in a language like Java or C++, you're in essence
