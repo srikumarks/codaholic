@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Exploring grha bhedams"
+title: "Exploring graha bhedams"
 date: 2012-12-30 15:43
 comments: true
 share: true
