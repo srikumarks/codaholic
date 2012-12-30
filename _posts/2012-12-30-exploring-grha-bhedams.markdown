@@ -8,7 +8,7 @@ categories:
 - Carnatic music
 ---
 
-Here is a demo web app for exploring [rāgās and their bhēdams].
+Here is a [demo web app] for exploring rāgās and their bhēdams.
 
 A few weeks ago, I had a conversation with Mr. Ramesh who showed me
 some amazing Excel wizardry and spells he'd cast to be able to take
@@ -25,5 +25,5 @@ purpose as it stands. Have fun with it!
 
 [graha bhēdams]: http://en.wikipedia.org/wiki/Graha_bhedam
 [Janya Rāgās]: http://en.wikipedia.org/wiki/List_of_Janya_Ragas
-[rāgās and their bhēdams]: /demos/bhedam
 [bhēdam explorer]: /demos/bhedam
+[demo web app]: /demos/bhedam
