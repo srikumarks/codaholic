@@ -31,4 +31,4 @@ This works fine in Chrome and Safari on MacOSX, but not in Firefox. I haven't
 yet figured out why it doesn't work in Firefox. If you find that it works in
 Chrome/Safari on Windows/Linux, please let me know in the comments.
 
-[scratch pad for common diacritics]: http://srikumarks.github.com/demos/diacritics
+[scratch pad for common diacritics]: /demos/diacritics
