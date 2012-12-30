@@ -4,7 +4,9 @@ title: "A critique of Tuna"
 description: ""
 sharing: true
 footer: true
-categories: javascript
+categories: 
+- Javascript
+- Web Audio API
 ---
 
 Google has open sourced the [Tuna] set of effects used in their [Jam with Chrome]

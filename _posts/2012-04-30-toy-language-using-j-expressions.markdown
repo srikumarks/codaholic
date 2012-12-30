@@ -4,7 +4,7 @@ title: "Toy language using j-expressions"
 description: ""
 sharing: true
 footer: true
-categories: javascript
+categories: Javascript
 ---
 
 Posted a "stream of thought" compiler for a toy language based

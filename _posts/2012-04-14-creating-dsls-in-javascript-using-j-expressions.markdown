@@ -4,7 +4,7 @@ title: "Creating DSLs in Javascript using J-expressions"
 description: ""
 sharing: true
 footer: true
-categories: javascript
+categories: Javascript
 ---
 
 Scheme and Lisp have for long had powerful meta-programming abilities due to

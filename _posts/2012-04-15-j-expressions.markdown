@@ -5,7 +5,7 @@ description: ""
 comments: true
 sharing: true
 footer: true
-categories: javascript
+categories: Javascript
 ---
 
 [JSON] has become a kind of de-facto standard for sharing data among services

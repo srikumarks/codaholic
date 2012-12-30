@@ -4,7 +4,7 @@ title: "Newcomb's problem and quantum physics"
 description: ""
 sharing: true
 footer: true
-categories: science
+categories: Science
 ---
 
 How would [Newcomb's problem] look like in the physical world, taking quantum

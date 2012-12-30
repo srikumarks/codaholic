@@ -4,7 +4,7 @@ title: "On eval and evil."
 description: ""
 sharing: true
 footer: true
-categories: javascript
+categories: Javascript
 ---
 
 "eval is evil" has become a maxim repeated in the Javascript community.

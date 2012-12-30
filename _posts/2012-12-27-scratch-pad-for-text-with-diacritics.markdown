@@ -5,7 +5,8 @@ date: 2012-12-27 10:09
 comments: true
 sharing: true
 footer: true
-categories: javascript
+categories: 
+- Carnatic music
 ---
 
 Roman text with a few choice diacritics are a common need when writing about

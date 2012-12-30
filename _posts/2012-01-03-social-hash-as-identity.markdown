@@ -4,7 +4,7 @@ title: "Social hash as identity"
 description: "Can we derive identity from the structure of our social network?"
 sharing: true
 footer: true
-categories: ideas
+categories: Ideas
 ---
 
 (This is a "brain-dump" post).

@@ -4,7 +4,7 @@ title: "Classes and Javascript"
 description: ""
 sharing: true
 footer: true
-categories: javascript
+categories: Javascript
 ---
 
 If you have been programming in Java and C++ for a while and are used to
