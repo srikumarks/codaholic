@@ -252,46 +252,68 @@ touching any of these global objects or classes. This gives us a poor man's
 sandbox.
 
 ``` js
-function poorMansSandbox() {
-    // arguments[0] is the code string to be evaluated in the sandbox.
-    // "allowed" contains all the permitted symbols for the code. (This is
-    // an incomplete list.)
-    var allowed = { "eval":     true
-                  , "Math" :    true
-                  , "Object":   true
-                  , "Array":    true
-                  , "Function": true
-                  , "String":   true
-                  , "Date":     true
-                  , "Number":   true
-                  };
+;(function () {
+    this.poorMansSandbox = (function (makeSandbox, world, allowed) {
 
-    // "inScope" contains all the visible definitions for the code.
-    // Make sure the symbols "inScope" and "allowed" are themselves not visible.
-    var inScope = { inScope: undefined
-                  , allowed: undefined 
-                  , poorMansSandbox: undefined
-                  };
+        // Make poorMansSandbox itself unavailable.
+        var scope = {poorMansSandbox: undefined};
 
-    // We need to run the eval in a separate function scope with
-    // a properly bound "this" because otherwise "this" will be
-    // the "window" object and all our efforts will have been in vain.
-    // We make "this" the scope object itself (i.e. "inScope")
-    return (function () {
-        Object.getOwnPropertyNames(window).forEach(function (g) {
-            if (!allowed[g]) {
-                inScope[g] = undefined;
+        var sandbox;
+
+        var update = (function () {
+            // Mask every global thing visible, except "allowed".
+            Object.getOwnPropertyNames(world).forEach(function (g) {
+                scope[g] = undefined;
+            });
+            
+            allowed.forEach(function (g) {
+                scope[g] = world[g];
+            });
+
+            sandbox = makeSandbox.call(scope);
+
+            return arguments.callee;
+        }());
+
+        return function () {
+            if (arguments.length === 0) {
+                // Call the sandboxer with no arguments to
+                // force it to update its world state.
+                update();
+                return arguments.callee;
             }
-        });
-        with (inScope) {
-            return eval(arguments[0]);
-        }
-    }).call(inScope, arguments[0]);
-}
+
+            return sandbox.call(scope, arguments[0]);
+        };
+
+    }(  (function () {
+            with (this) {
+                return function () {
+                    "use strict";
+                    return eval(arguments[0]);
+                };
+            }
+        }),
+        this,
+        ["eval", "Math", "Object", "Array", "Function", "String",
+         "Date", "Number", "Boolean", "Infinity", "NaN", "isNaN",
+         "isFinite"]
+    ));
+}());
 ```
+
+The idea behind the above code is to prevent access to global properties
+other than the ones given in the `allowed` array. Furthermore, we also
+don't want the eval code to add new global properties by simple assignment,
+for which we simply use strict mode evaluation.
 
 Though this prevents access to existing global properties, it doesn't prevent
 access to properties that will be added to `window` *after* the `eval` happens.
+To update the internal `scope` object of the `poorMansSandbox`, call it
+once with no arguments before calling it on the string to be evaluated.
+
+Of course, the eval-ed code can still do malicious things, but it cannot
+at least do them inadvertently. Hence "poor man's".
 
 ## Conclusion
 
