@@ -255,21 +255,30 @@ sandbox.
 ;(function () {
     this.poorMansSandbox = (function (makeSandbox, world, allowed) {
 
-        // Make poorMansSandbox itself unavailable.
-        var scope = {poorMansSandbox: undefined};
+        // Makes obj and all its ancestors read-only.
+        function freezeHard(obj) {
+            for (var iter = obj; iter; iter = iter.__proto__) {
+                try { Object.freeze(iter); } catch (e) {}
+            }
+            return obj;
+        }
 
-        var sandbox;
+        var scope, sandbox;
 
         var update = (function () {
+            // Make poorMansSandbox itself unavailable.
+            scope = {poorMansSandbox: undefined};
+
             // Mask every global thing visible, except "allowed".
             Object.getOwnPropertyNames(world).forEach(function (g) {
                 scope[g] = undefined;
             });
             
             allowed.forEach(function (g) {
-                scope[g] = world[g];
+                scope[g] = freezeHard(world[g]);
             });
 
+            freezeHard(scope);
             sandbox = makeSandbox.call(scope);
 
             return arguments.callee;
