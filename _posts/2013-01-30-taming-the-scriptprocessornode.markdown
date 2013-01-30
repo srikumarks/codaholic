@@ -34,7 +34,7 @@ specification.
 8. [PS: Steller's jsnode model](#stellers-jsnode-model)
 
 
-## <a name="simple-chime-model">A simple chime model</a>
+## <a name="simple-chime-model"></a>A simple chime model
 
 Let's consider a simple kind of sound - a "chime", a decaying sinusoid
 oscillating at a given frequency. This can be implemented using an
@@ -116,7 +116,7 @@ function chime(freq, output) {
 }
 ```
 
-## <a name="replacing-gain-node-with-scriptprocessornode">Replacing the gain node with a ScriptProcessorNode</a>
+## <a name="replacing-gain-node-with-scriptprocessornode"></a>Replacing the gain node with a ScriptProcessorNode
 
 Now let's consider what happens if we try to replace the gain node's behaviour
 (limited to this example) using a [ScriptProcessorNode].
@@ -148,7 +148,7 @@ function chime_jsgain(freq, output) {
 }
 ```
 
-### <a name="vaninshing-script-node">Problem 1: The vanishing script node</a>
+### <a name="vaninshing-script-node"></a>Problem 1: The vanishing script node
 
 If you try to make a chime using [chime_jsgain](#chime_jsgain), you'll find
 that the sound stops abruptly well before the 10 seconds duration given.  This
@@ -184,7 +184,7 @@ function chime_jsgain(freq, output) {
 This will result in the script node being preserved during the course of
 the chime.
 
-### <a name="eternal-script-node">Problem 2: The eternal script node</a>
+### <a name="eternal-script-node"></a>Problem 2: The eternal script node
 
 With the modifications of the preceding section, the oscillator node will
 disappear after 10 seconds but the script node will persist and continue to be
@@ -306,7 +306,7 @@ function chime_jsgain(freq, output) {
 }
 ```
 
-## <a name="replacing-oscillator-with-scriptprocessornode">Replacing the oscillator with a ScriptProcessorNode</a>
+## <a name="replacing-oscillator-with-scriptprocessornode"></a>Replacing the oscillator with a ScriptProcessorNode
 
 Now, let's consider what happens if we try to implement the [OscillatorNode]
 (limited to this example) using a [ScriptProcessorNode]. We can use
@@ -516,7 +516,7 @@ function chime_jsgain(t, freq, output) {
 }    
 ```
 
-## <a name="accounting-for-tail-time">Accounting for tail time</a>
+## <a name="accounting-for-tail-time"></a>Accounting for tail time
 
 The gain node is simple in that it produces one output sample for each input
 sample it receives on its input pin. Other node types, especially filter and
@@ -593,7 +593,7 @@ function scriptWithStartStopTime(input, output, startTime, stopTime, handler) {
 }
 ```
 
-## <a name="reflections-on-api">Reflections on the API</a>
+## <a name="reflections-on-api"></a>Reflections on the API
 
 The [final form of scriptWithStartStopTime](#final-scriptWithStartStopTime)
 expresses functionality that is essential to the use of script nodes as
@@ -614,7 +614,7 @@ currently provide any notification mechanisms for monitoring connections to a
 node's input and output so that processor nodes can self destruct when their
 inputs die.
 
-## <a name="concluding-suggestions">Concluding suggestions</a>
+## <a name="concluding-suggestions"></a>Concluding suggestions
 
 The use case worked through in this post demonstrates how abstractions built on
 other nodes do not extend to script nodes without special considerations. The
@@ -641,7 +641,7 @@ important.
    the time indicated in a stop(t) call or after its inputs have
    been end-of-lifed.
 
-### <a name="stellers-jsnode-model">PS: Steller's jsnode model</a>
+### <a name="stellers-jsnode-model"></a>PS: Steller's jsnode model
 
 The [Steller] library features a [jsnode] model that wraps the API's script
 node into a node type that can be scheduled as discussed in this post. It also
