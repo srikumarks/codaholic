@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Digging into ScriptProcessorNode"
-date: 2013-01-25 21:20
+title: "Taming the ScriptProcessorNode"
+date: 2013-01-30 21:20
 comments: true
 published: true
 categories: 
@@ -16,7 +16,7 @@ provides a [ScriptProcessorNode] whose processing is determined by a Javascript
 function. Though the [ScriptProcessorNode] is presented like any other node
 type by the API, its behaviour differs from the other native nodes in some
 fundamental ways. This post examines some of these differences using a simple
-chime model as the use case, with some implied suggestions for the [Web Audio API] 
+chime model as the use case, and derives some suggestions for the [Web Audio API] 
 specification.
 
 <!-- more -->
@@ -30,13 +30,15 @@ specification.
 4. [Replacing the oscillator with a ScriptProcessorNode](#replacing-oscillator-with-scriptprocessornode)
 5. [Accounting for tail time](#accounting-for-tail-time)
 6. [Reflections on the API](#reflections-on-api)
+7. [Concluding suggestions](#concluding-suggestions)
+8. [PS: Steller's jsnode model](#stellers-jsnode-model)
 
 
 ## <a name="simple-chime-model">A simple chime model</a>
 
-Let's consider a simple kind of sound - a "chime", a decaying sinusoid of a
-particular frequency. This can be implemented using an [OscillatorNode] and a
-[GainNode] as follows -
+Let's consider a simple kind of sound - a "chime", a decaying sinusoid
+oscillating at a given frequency. This can be implemented using an
+[OscillatorNode] and a [GainNode] as follows -
 
 {% img /images/osc-gain.svg %}
 
@@ -83,7 +85,7 @@ after which the reference is released and the subgraph between the source and th
 context destination is destroyed. This behaviour of native source nodes is
 documented in the [Dynamic Lifetime] section of the [Web Audio API] documentation.
 
-## <a name="abstracting-chime-model">Abstracting the chime model</a>
+## <a name="abstracting-chime-model"></a>Abstracting the chime model
 
 The chime model described in the previous section only plays one chime. This is
 practically useless in the real world. A more useful incarnation of the chime model
@@ -173,26 +175,9 @@ Using the `keep` utility, we can now rewrite `chime_jsnode` as --
 
 ``` js Keeping around a global reference to the script node.
 function chime_jsgain(freq, output) {
-    var osc = AC.createOscillator();
-    var stopTime = AC.currentTime + 10.0;
-    osc.frequency.value = freq || 880.0;
-    var gain = keep(AC.createScriptProcessor(1024, 1, 1)); // << Modified line.
-    gain.onaudioprocess = (function () {
-        var amplitude = 0.25;
-        var decay = Math.exp(- 1.0 / (2.0 * AC.sampleRate));
-        return function (event) {
-            var i, N, inp, out;
-            inp = event.inputBuffer.getChannelData(0);
-            out = event.outputBuffer.getChannelData(0);
-            for (i = 0, N = out.length; i < N; ++i, amplitude *= decay) {
-                out[i] = amplitude * inp[i];
-            }
-        };
-    }());
-    osc.connect(gain);
-    gain.connect(output || AC.destination);
-    osc.start(AC.currentTime);
-    osc.stop(stopTime);
+    // ...
+    var gain = keep(AC.createScriptProcessor(1024, 1, 1));
+    // ...
 }
 ```
 
@@ -201,11 +186,11 @@ the chime.
 
 ### <a name="eternal-script-node">Problem 2: The eternal script node</a>
 
-Now, the oscillator node will disappear after 10 seconds, but the
-script node will persist and continue to be processed. To prevent this,
-we make arrangement for the script node to be removed from the graph
-and for its global reference to be dropped once it has processed
-enough samples.
+With the modifications of the preceding section, the oscillator node will
+disappear after 10 seconds but the script node will persist and continue to be
+processed. To prevent this, we make arrangement for the script node to be
+removed from the graph and for its global reference to be dropped once it has
+processed enough samples.
 
 ``` js <a name="drop">drop</a> Dropping the global reference to a node.
 function drop(node) {
@@ -325,7 +310,7 @@ function chime_jsgain(freq, output) {
 
 Now, let's consider what happens if we try to implement the [OscillatorNode]
 (limited to this example) using a [ScriptProcessorNode]. We can use
-[handlerWithStopTime](#handlerWithStopTime) to take a first shot at it.
+[scriptWithStopTime](#scriptWithStopTime) to take a first shot at it.
 While we're there, we'll also generalize the chime model to take a time
 at which to trigger the chime.
 
@@ -368,7 +353,7 @@ Exposing the start time makes obvious a few design flaws --
 
 To solve the wasted computation problem, we can make the `onaudioprocess`
 be a no-op until the start time. This is best done by writing a
-`handlerWithStartStopTime` as we did with `handlerWithStopTime`.
+`scriptWithStartStopTime` as we did with `scriptWithStopTime`.
 
 
 ``` js <a name="scriptWithStartStopTime2">scriptWithStartStopTime</a> Removing wasted computation.
@@ -413,7 +398,7 @@ need to receive any callbacks whatsoever until it is time to start generating
 samples. To achieve this, we need to schedule the node to connect and start
 just in time, say 0.1 seconds before the scheduled start time. To do this,
 we need to generalize `scriptWithStartStopTime` to work with the nodes
-to which it is expected to connect.
+to which the script node is expected to connect.
 
 
 ``` js <a name="scriptWithStartStopTime2">scriptWithStartStopTime</a> Delayed node setup.
@@ -608,30 +593,91 @@ function scriptWithStartStopTime(input, output, startTime, stopTime, handler) {
 }
 ```
 
-## <a name="reflections-on-api">Reflections on the ScriptProcessorNode API</a>
+## <a name="reflections-on-api">Reflections on the API</a>
 
 The [final form of scriptWithStartStopTime](#final-scriptWithStartStopTime)
 expresses functionality that is essential to the use of script nodes as
 algorithmic signal sources and signal processors that can be scheduled
 to sample accuracy. Although this function adds the required functionality,
 the [Web Audio API] would be better off with a script node type whose
-lifetime can be managed just like the native nodes.
+lifetime can be managed just like the native nodes and suppor the
+dynamic behaviour available with the native nodes.
 
-The [Steller] library features a [jsnode] model that wraps the API's 
-script node into a node type that can be scheduled in this way. It also
-adds some conveniences such as multiple inputs (albeit single channel)
-and a-rate controllable and schedulable [AudioParam] parameters.
+Not having it builtin results in an inconsistency that is awkward to
+work around - the fact that `start(t)` and `stop(t)` methods added in pure
+Javascript are not only necessary for script nodes that are pure signal
+generators, but also for signal processors. This is because a script node might
+otherwise end up wasting compute cycles either idling or computing audio that
+is going to be discarded by the rest of the chain. A `stop(t)` method is
+necessary for such processor nodes because the [Web Audio API] does not
+currently provide any notification mechanisms for monitoring connections to a
+node's input and output so that processor nodes can self destruct when their
+inputs die.
+
+## <a name="concluding-suggestions">Concluding suggestions</a>
+
+The use case worked through in this post demonstrates how abstractions built on
+other nodes do not extend to script nodes without special considerations. The
+two kinds of usages for script nodes discussed here -- sources and signal
+processors -- are likely to be very common scenarios, which makes it worthwhile
+to try to avoid the problems that arise with such usage of script nodes. Having
+the following features built into the [ScriptProcessorNode] is therefore
+important.
+
+1. Permit creation of script nodes without inputs. This better models source
+   nodes. Passing 0 for "number of input channels" may be enough at the API
+   level.
+2. Add `start(t)` and `stop(t)` methods to permit script nodes to be used as
+   signal sources, with such nodes not taking up any system resources during
+   their inactive periods. 
+3. Add [dynamic lifetime] support similar to native nodes, whereby unreferenced
+   "signal processor" script nodes driven by source nodes are automatically
+   released once the source node finishes, even if the source node is itself a
+   script node. To achieve this, the time at which the inputs cease must be
+   available as part of the event structure passed to the `onaudioprocess`
+   callback, so that the callback can begin any tail phase that it needs to
+   complete before it commits suicide.
+4. Specify a convention and/or API to support tail times beyond 
+   the time indicated in a stop(t) call or after its inputs have
+   been end-of-lifed.
+
+### <a name="stellers-jsnode-model">PS: Steller's jsnode model</a>
+
+The [Steller] library features a [jsnode] model that wraps the API's script
+node into a node type that can be scheduled as discussed in this post. It also
+adds some conveniences such as multiple inputs (albeit single channel), and
+a-rate controllable and schedulable [AudioParam] parameters. You can use
+Steller's jsnode model like this -
+
+``` html
+<script src="http://sriku.org/lib/steller/steller.min.js"></script>
+<script>
+    var sh = new org.anclab.steller.Scheduler(new webkitAudioContext);
+    var jsn = sh.models.jsnode({
+        numberOfInputs: 0,
+        numberOfOutputs: 1,
+        onaudioprocess: function (event) {
+            // ...
+            return toSamp - fromSamp;
+        }});
+    jsn.connect(AC.destination);
+    sh.play(sh.fire(function (clock) {
+        jsn.start(clock.t);
+        jsn.stop(clock.t + 10.0);
+    }));
+</script>
+```
 
 
-[ScriptProcessorNode]: http://www.w3.org/TR/webaudio/#ScriptProcessorNode
-[Web Audio API]: http://www.w3.org/TR/webaudio
-[BiquadFilterNode]: http://www.w3.org/TR/webaudio/#BiquadFilterNode
-[AudioBufferSourceNode]: http://www.w3.org/TR/webaudio/#AudioBufferSourceNode
-[OscillatorNode]: http://www.w3.org/TR/webaudio/#OscillatorNode
-[GainNode]: http://www.w3.org/TR/webaudio/#GainNode
-[dynamic lifetime]: http://www.w3.org/TR/webaudio/#DynamicLifetime
-[GraphNode]: https://github.com/srikumarks/steller/blob/experimental_buildsys/src/graphnode.js
-[jsnode]: https://github.com/srikumarks/steller/blob/experimental_buildsys/src/models/jsnode.js
-[Steller]: https://github.com/srikumarks/steller
-[jsnode]: https://github.com/srikumarks/steller/blob/experimental_buildsys/src/models/jsnode.js
-[AudioParam]: http://www.w3.org/TR/webaudio/#AudioParam
+[ScriptProcessorNode]:      http://www.w3.org/TR/webaudio/#ScriptProcessorNode
+[Web Audio API]:            http://www.w3.org/TR/webaudio
+[BiquadFilterNode]:         http://www.w3.org/TR/webaudio/#BiquadFilterNode
+[AudioBufferSourceNode]:    http://www.w3.org/TR/webaudio/#AudioBufferSourceNode
+[OscillatorNode]:           http://www.w3.org/TR/webaudio/#OscillatorNode
+[GainNode]:                 http://www.w3.org/TR/webaudio/#GainNode
+[dynamic lifetime]:         http://www.w3.org/TR/webaudio/#DynamicLifetime
+[GraphNode]:                https://github.com/srikumarks/steller/blob/experimental_buildsys/src/graphnode.js
+[jsnode]:                   https://github.com/srikumarks/steller/blob/experimental_buildsys/src/models/jsnode.js
+[Steller]:                  https://github.com/srikumarks/steller
+[jsnode]:                   https://github.com/srikumarks/steller/blob/experimental_buildsys/src/models/jsnode.js
+[AudioParam]:               http://www.w3.org/TR/webaudio/#AudioParam
