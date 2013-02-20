@@ -66,7 +66,9 @@ with
 
 to get that kind of performance boost.  Black art indeed!
 
-[concurrent implementation of Eratosthenes' prime sieve]: http://golang.org/doc/go_tutorial.html#tmp_353
+[concurrent implementation of Eratosthenes' prime sieve]: http://golang.org/s/prime-sieve
 [Go implementation]: http://golang.org/doc/go_tutorial.html#tmp_353
 [despite its poor aasymptotic behaviour]: http://sites.google.com/site/haskell/notes/thegenuinesieveoferatosthenes
 [performant Haskell]: http://www.haskell.org/haskellwiki/Performance
+
+PS: The [old link](http://golang.org/doc/go_tutorial.html#tmp_353) to the Go sieve code is now broken.
