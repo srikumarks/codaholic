@@ -619,10 +619,9 @@ inputs die.
 The use case worked through in this post demonstrates how abstractions built on
 other nodes do not extend to script nodes without special considerations. The
 two kinds of usages for script nodes discussed here -- sources and signal
-processors -- are likely to be very common scenarios, which makes it worthwhile
-to try to avoid the problems that arise with such usage of script nodes. Having
-the following features built into the [ScriptProcessorNode] is therefore
-important.
+processors -- are common scenarios. Having the following features built into
+the [ScriptProcessorNode] helps avoid the problems that crop up in
+straightfoward usage of script nodes.
 
 1. Permit creation of script nodes without inputs. This better models source
    nodes. Passing 0 for "number of input channels" may be enough at the API

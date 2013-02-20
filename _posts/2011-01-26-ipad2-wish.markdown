@@ -1,0 +1,15 @@
+---
+layout: post
+title: "iPad2 wish .."
+date: 2011-01-26
+comments: false 
+categories: Tech
+---
+
+Now that macworld is near, it is time for an iPad wish list.
+
+I have only one item on it - and it is the addition of a wacom tablet-like
+stylus interface on top of the capacitive touch screen. Camera? Nope don't
+need. I want a pad where I can draw and scribble with precision, flipping the
+stylus on its head to turn it into an eraser. Ah! That'll be a heaven of a
+tablet with both touch and stylus support.
