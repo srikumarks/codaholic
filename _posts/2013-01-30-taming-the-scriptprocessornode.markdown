@@ -152,12 +152,16 @@ function chime_jsgain(freq, output) {
 
 If you try to make a chime using [chime_jsgain](#chime_jsgain), you'll find
 that the sound stops abruptly well before the 10 seconds duration given.  This
-is because the script node is garbage collected almost immediately.  This, I
-believe, is a WebKit implementation bug since the oscillator node, which has a
+is because the script node is garbage collected almost immediately.  This is 
+a [WebKit implementation bug]. The oscillator node, which has a
 persistent reference till stop time, holds a reference to the script node
 through its output, and yet the script node is garbage collected. A known
 workaround for this bug is to maintain a *global* reference to the script node.
 For this, we can use the following simple scheme --
+
+[WebKit implementation bug]: https://code.google.com/p/chromium/issues/detail?id=82795
+
+*edit*: Added link to issue.
 
 ``` js <a name="keep">keep</a> Preserving script nodes.
 var scriptNodes = {};
