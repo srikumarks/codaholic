@@ -6,7 +6,7 @@ comments: true
 published: false
 categories: 
 - Carnatic music
-- Music
+- Education
 - Tala Keeper
 ---
 
@@ -29,10 +29,28 @@ mindset to adopt when practicing with a metronome.
 I begin the series with "part 1" where I present a simple exercise to
 demonstrate the usage of a metronome to internalize the flow of musical time in
 a simple context. Though there is nothing specific to Carnatic music in part 1,
-the notion of internalizing musical time and the meditative nature of the music
-of the genre are stood at the forefront.
+the notion of internalizing musical time and the meditative nature of the genre
+are stood at the forefront.
 
 <!-- more -->
+
+<script src="http://talakeeper.org/lib/steller.min.js"></script>
+<script src="http://talakeeper.org/tk3.js"></script>
+<div style="position:fixed;top:300px;left:48px;" id="taladisplay" hidden></div>
+<script>
+window.TalaPlayer = TK3.setupPlayer({
+    width: 240,
+    div: "#taladisplay",
+    imageLocation: "http://talakeeper.org/tk3images/"
+});
+function showsim() {
+    document.getElementById("taladisplay").hidden = false;
+}
+function play(url) {
+    showsim();
+    TalaPlayer.play(url);
+}
+</script>
 
 ## What is a metronome?
 
@@ -44,11 +62,11 @@ digital metronome that can count beat groups of threes, fours, fives and such.
 The digital metronomes usually produce two sounds - one for the first beat of
 the group and another for the remaining beats. 
 
-You can read about [the various kinds of metronomes on Wikipedia], so this
+You can read about [the various kinds of metronomes] on Wikipedia, so this
 article will not delve further into the details or history of the device
-itself. The focus of this article is how to practice Carnatic music using
-any one of them. If you are unfamiliar with a metronome, please do take 
-some time to go through the linked Wikipedia article.
+itself. The focus of this article is how to practice Carnatic music using any
+one of them. If you are unfamiliar with a metronome, please do take some time
+to go through the linked Wikipedia article.
 
 ## Tala Keeper
 
@@ -56,6 +74,9 @@ some time to go through the linked Wikipedia article.
 practice needs of Carnatic music students - both basic and advanced. So I'll
 be using Tala Keeper to illustrate cases in this article. Though it is an iOS
 app, a [browser-based simulator] is freely available if you don't own an iDevice.
+
+[Click here][showsim] to show the in-browser simulator for playing the patterns
+in this article. 
 
 ## Beginning at the beginning
 
@@ -81,13 +102,13 @@ anyone can do.
 1. Find a quiet spot, sit comfortably and play a simple left-right bounce
    pattern in Tala Keeper.  To do this, you tap the pads in the following
    sequence -- left-middle-middle-middle-right-middle-middle-middle. Also make
-   sure that the [pulse options] control looks like this - ![sound and
-   bounce](/images/pulse-sound-bounce.png). 
+   sure that the [pulse options] control looks like this - <img
+   src="/images/pulse-sound-bounce.png"/>. (If you don't have Tala Keeper,
+   [click here][1] to play this pattern.)
    
-   If you don't have Tala Keeper, you can [open this link][1] in a new browser
-   window to play this pattern. A tempo of 60-70 beats per minute is a good
-   starting point. With Tala Keeper, the process of internalization already
-   began in a small way when you tapped out the sequence as indicated above.
+   A tempo of 60-70 beats per minute is a good starting point. With Tala
+   Keeper, the process of internalization already began when you tapped out the
+   sequence as indicated above.
      
    Pay attention to your breathing in relation to the bouncing ball. Feel free
    to adjust the tempo a little to a value that you feel comfortable with. 
@@ -120,12 +141,12 @@ anyone can do.
    your breathing. Do this for as long as you feel like. 
    
    At this point, you're experiencing the flow of metric time in three modes -
-   auditory, visual and kinesthetic - in an integrated way.
+   auditory, visual and kinesthetic - in an integrated way. 
 
 4. Once you're satisfied with the previous phase, expand your consciousness of
    the four beat cycle by turning off visual hints of each pulse. If you're
    using Tala Keeper, you can tap the [pulse options] control till it looks
-   like this - ![nobounce](/images/pulse-sound-nobounce.png). In this mode, the
+   like this - <img src="/images/pulse-sound-nobounce.png"/>. In this mode, the
    ball won't bounce in the middle for each pulse, but the "knock" sound will
    be heard.  (If you're following this without Tala Keeper, [click here][2].)
 
@@ -148,24 +169,24 @@ anyone can do.
 
 6. You might need considerable practice with the previous stages before you can
    tackle this one - turn off the auditory cues as well! On Tala Keeper, you
-   tap the pulse options till it looks like this - ![no auditory
-   cues](/images/pulse-nosound-nobounce.png).  (If you're following this
+   tap the pulse options till it looks like this - <img
+   src="/images/pulse-nosound-nobounce.png"/>.  (If you're following this
    without Tala Keeper, [click here][3].)
 
    Now you're all on your own, with only the long bounces of the ball to help you
    feel the time. If you're using a tempo of 60bpm -- Tala Keeper will show "60"
-   near its "floor" -- you have to fill in for the auditory and physical sensations
+   near its floor -- you have to fill in for the auditory and physical sensations
    for the three pulses between the major beats. That is all of 4 seconds between
    beats! If you're like me, you'll find that the mind has plenty of time to wander
    away from this simple task in that span of time. So this has been an excellent
    exercise in concentration for me.
 
-   This stage is intense. There is an expansive long precise bounce of the ball
-   "beating" once every 4 seconds or so (depending on the tempo). You are
+   This stage can be intense. There is an expansive long precise bounce of the
+   ball "beating" once every 4 seconds or so, depending on the tempo. You are
    making these large gestures with your hand, while internally filling in for
-   the three intermediate "knock" sounds for pulses between the major beats. All
-   this while paying attention to your breathing. If youre still singing tones,
-   that is fantastic and I salute you!
+   the three intermediate "knock" sounds for pulses between the major beats.
+   All this while paying attention to your breathing. If youre still singing
+   tones, that is fantastic and I salute you!
 
 7. As the final step, close your eyes and turn off Tala Keeper, but continue
    everything else - i.e. following the breath, imagining the bounce, "conducting"
@@ -182,17 +203,17 @@ anyone can do.
 The exercise presented in this part 1 of the "how to practice Carnatic music
 with a metronome" series gives you a taste of the process of internalizing
 musical time. In the coming parts, I'll delve into progressively advanced
-practice. However, the theme of this series will be the same - the
+practice. However, the theme of this series will be the same -- the
 *internalization* of musical time, in several different contexts.
 
 Happy practice!
 
-[the various kinds of metronomes on Wikipedia]: http://en.wikipedia.org/wiki/Metronome
+[the various kinds of metronomes]: http://en.wikipedia.org/wiki/Metronome
 [Tala Keeper]: http://talakeeper.org
 [browser-based simulator]: http://talakeeper.org/talas.html
 [pulse options]: http://talakeeper.org
 
-[1]: http://talakeeper.org/tk3?bpm=60&pat=l___r___&c=n&name=Breathing
-[2]: http://talakeeper.org/tk3?bpm=60&pat=l___r___&pb=n&c=n&name=Breathing
-[3]: http://talakeeper.org/tk3?bpm=60&pat=l___r___&pb=n&ps=n&c=n&name=Breathing
-
+[showsim]: javascript:showsim()
+[1]: javascript:play('http://talakeeper.org/tk3?bpm=60&pat=l___r___&c=n&name=Breathing')
+[2]: javascript:play('http://talakeeper.org/tk3?bpm=60&pat=l___r___&pb=n&c=n&name=Breathing')
+[3]: javascript:play('http://talakeeper.org/tk3?bpm=60&pat=l___r___&pb=n&ps=n&c=n&name=Breathing')
