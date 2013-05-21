@@ -1,3 +1,6 @@
 [submodule "demos"]
 	path = demos
 	url = /Users/kumar/github/local/demos
+[submodule "lib"]
+	path = lib
+	url = git@github.com:srikumarks/lib.git
