@@ -3,12 +3,14 @@ layout: post
 title: "How to practice Carnatic music with a metronome - Part 1: The Basics"
 date: 2013-05-25 23:56
 comments: true
-published: false
+published: true
 categories: 
 - Carnatic music
 - Education
 - Tala Keeper
 ---
+
+*Status:* Draft
 
 Internalizing the flow of musical time, known as "layam", is an essential
 aspect of the training of a student of Carnatic music.  Though the adage "sruti
@@ -23,8 +25,8 @@ could not reconcile this recommendation with the fact that many masters whose
 sense of layam I admire have pacticed using a metronome. In my own experience
 with personal veena practice as well as in group situations, I've noticed that
 the difference between effective and counter productive practice with a
-metronome is a subtle mental shift, which probably explains the polarized views
-regarding metronomes. 
+metronome is a subtle mental shift, which might explain the polarized views
+about metronomes. 
 
 This article series is born out of a wish to share what I believe to be the
 right mindset to adopt when practicing with a metronome, from the perspective
@@ -44,17 +46,59 @@ series, though I haven't worked it all out just yet.
 <script src="http://talakeeper.org/tk3.js"></script>
 <div style="position:fixed;top:300px;left:48px;" id="taladisplay" hidden></div>
 <script>
-window.TalaPlayer = TK3.setupPlayer({
-    width: 240,
-    div: "#taladisplay",
-    imageLocation: "http://talakeeper.org/tk3images/"
-});
-function showsim() {
-    document.getElementById('taladisplay').hidden = false;
+
+window.showingTKSim = false;
+window.platformMayHaveTK = (function () {
+    return /(iPhone)|(iPod)|(iPad)/.test(window.navigator.userAgent);
+}());
+
+function onceOnly(fn) {
+    var result;
+    var calculated = false;
+    return function () {
+        if (calculated) {
+            return result;
+        }
+
+        result = fn.apply(null, arguments);
+        calculated = true;
+        return result;
+    };
 }
-function play(url) {
-    showsim();
-    TalaPlayer.play(url);
+        
+var TalaPlayer = onceOnly(function () {
+    return TK3.setupPlayer({
+        width: 180,
+        div: "#taladisplay",
+        imageLocation: "http://talakeeper.org/tk3images/"
+    });
+});
+
+function togglesim() {
+    // Toggle display.
+    showsim(window.showingTKSim = !window.showingTKSim);
+}
+
+function showsim(visible) {
+    window.showingTKSim = visible;
+    if (visible) {
+        TalaPlayer();
+    }
+    document.getElementById('taladisplay').hidden = !visible;
+}
+
+function talaURLClickHandler(url) {
+    return function (event) {
+        if (window.showingTKSim || !window.platformMayHaveTK) {
+            showsim(true);
+            event.preventDefault();
+            event.stopPropagation();
+            TalaPlayer().play(url);
+            return false;
+        } else {
+            return true;
+        }
+    };
 }
 </script>
 
@@ -72,7 +116,8 @@ You can read about [the various kinds of metronomes][metronomes] on Wikipedia,
 so this article will not delve further into the details or history of the
 device itself. The focus of this article is how to practice Carnatic music
 using any one of them. If you are unfamiliar with a metronome, please do take
-some time to go through the linked Wikipedia article.
+some time to go through the linked Wikipedia article .... and get yourself
+a metronome!
 
 ## Tala Keeper
 
@@ -99,9 +144,7 @@ attitude fosters a dependence on the metronome and if you practice this way,
 you may feel lost without one. When it comes to difficult aspects of layam such
 as nadai changes, you may also develop a false sense of being right because
 you're continuously adjusting to the metronome's beats. This will manifest,
-ironically, as a lack of confidence in whether you'll "get it right". If, like
-me, you've been down this path, you may find yourself a tad nervous when
-playing talam to a competent percussionist's solo.
+ironically, as a lack of confidence in whether you'll "get it right". 
 
 A better attitude is to treat the metronome as a "friend" who walks alongside,
 uncritical of your doings, but whose resources you can always draw on during
@@ -110,18 +153,17 @@ inward", you do not adjust on every beat, because there is no "right timing" to
 achieve. You let the beats drift past, fully confident that the difference
 will be brought to your awareness by your "friend". Then you may stop, collect
 yourself, and try again. Over time, you'll find yourself needing to stop less.
-You'd have internalized your friend, and your confidence will grow.  Now when
-you play talam for a percussion solo, you may actually be of help to the artist
-because you'll understand what the artist is attempting to do. Instead of
-nervousness, you'll feel pleasure! 
+You'd have internalized your friend, and you will gain real confidence.  
 
-{% pullquote %} 
-The key to this internalization is attention to breathing, which will be
-emphasized in this article. We all breathe naturally, but we do it so
-automatically and without awareness that a simple question like "how many
-breaths do you take in a minute?" can stump us. {" To truly practice Carnatic
-music with a metronome is to turn your attention inward, to your breathing. "}
-I now describe a simple starter exercise to give a taste of this "turning inward".
+{% pullquote %}
+The key to this internalization is attention to breathing. We all breathe
+naturally, but we do it so automatically and without awareness that a simple
+question like "how many breaths do you take in a minute?" can stump us. But our
+breathing is ever present, whether or not we're aware of it. It therefore
+offers a great tool to anchor our internal sense of time. {" To truly practice
+Carnatic music with a metronome is to turn your attention inward, to your
+breathing. "} I now describe a simple starter exercise to give a taste of this
+"turning inward". 
 {% endpullquote %}
 
 ## A simple starter exercise
@@ -242,17 +284,16 @@ practice. However, I expect the theme of this series to be the same -- the
 
 Happy practice!
 
+[Discuss on Google+](https://plus.google.com/102694714835839603248/posts/eKHgAGTGy5r)
+
 <script>
-function talaLinks() {
-    return Array.prototype.slice.call(document.querySelectorAll('a')).filter(function (link) {
-            return /^https?:\/\/talakeeper.org\/tk3/.test(link.getAttribute('href'));
-        });
-}
 ;(function () {
-    var iOS = /(iPhone)|(iPod)|(iPad)/.test(window.navigator.userAgent);
-    talaLinks().forEach(function (link) {
+    var talaLinks = Array.prototype.slice.call(document.querySelectorAll('a')).filter(function (link) {
+        return /^https?:\/\/talakeeper.org\/tk3/.test(link.getAttribute('href'));
+    });
+    talaLinks.forEach(function (link) {
         var href = link.getAttribute('href');
-        link.setAttribute('href', iOS ? href.replace(/^https?:/, "tala:") : ('javascript:play(\'' + link.href + '\')'));
+        link.onclick = talaURLClickHandler(href.replace(/^https?:/, "tala:"));
     });
 }());
 </script>
@@ -262,8 +303,8 @@ function talaLinks() {
 [browser-based simulator]: http://talakeeper.org/talas.html
 [pulse options]: http://talakeeper.org
 
-[showsim]: javascript:showsim()
-[simulator]: javascript:showsim()
+[showsim]: javascript:togglesim()
+[simulator]: javascript:togglesim()
 [1]: http://talakeeper.org/tk3?bpm=60&pat=l___r___&c=n&name=Breathing
 [2]: http://talakeeper.org/tk3?bpm=60&pat=l___r___&pb=n&c=n&name=Breathing
 [3]: http://talakeeper.org/tk3?bpm=60&pat=l___r___&pb=n&ps=n&c=n&name=Breathing
