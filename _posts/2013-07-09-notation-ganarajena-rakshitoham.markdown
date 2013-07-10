@@ -21,11 +21,13 @@ Carnatic music notation rendering engine. To see the underlying
 notation itself, view the source of this post and look at the `<pre>`
 tags with `class="carnot_section"`.
 
+<!-- more -->
+
 <pre class="carnot_style" hidden>
 notation font size = 12
 notation small font size = 10
-stretch = 1.0
-stretch space = 0.5
+stretch = 1.1
+stretch space = 0.6
 </pre>
 
 ## Ārabhi
