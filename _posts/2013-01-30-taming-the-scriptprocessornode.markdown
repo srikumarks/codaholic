@@ -587,10 +587,10 @@ function scriptWithStartStopTime(input, output, startTime, stopTime, handler) {
     }
 
     var dt = startTime - AC.currentTime;
-    if (dt <= prepareAheadTime) {
+    if (dt < 0.001 + prepareAheadTime) {
         prepareNode();
     } else {
-        setTimeout(prepareNode, Math.floor(1000 * dt));
+        setTimeout(prepareNode, Math.floor(1000 * (dt - prepareAheadTime)));
     }
 
     return node;

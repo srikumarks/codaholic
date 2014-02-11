@@ -22,6 +22,15 @@ Carnatic music notation rendering engine. To see the underlying
 notation itself, view the source of this post and look at the `<pre>`
 tags with `class="carnot_section"`.
 
+*Links:* [Printable version][print] | [Markdown source][source]
+
+See also this [simpler version][print2] (and its [source][source2]).
+
+[print]: http://sriku.org/notations/ganarajena.html
+[source]: http://sriku.org/notations/ganarajena.md
+[print2]: http://sriku.org/notations/ganarajena2.html
+[source2]: http://sriku.org/notations/ganarajena2.md
+
 <!-- more -->
 
 <pre class="carnot_style" hidden>

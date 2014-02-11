@@ -2,6 +2,7 @@
 layout: post
 title: "How to practice Carnatic music with a metronome - Part 1: The Basics"
 date: 2013-05-25 23:56
+sharing: true
 comments: true
 published: true
 categories: 
@@ -9,8 +10,6 @@ categories:
 - Education
 - Tala Keeper
 ---
-
-*Status:* Draft
 
 Internalizing the flow of musical time, known as "layam", is an essential
 aspect of the training of a student of Carnatic music.  Though the adage "sruti
