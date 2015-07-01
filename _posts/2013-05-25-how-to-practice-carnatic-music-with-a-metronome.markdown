@@ -41,64 +41,69 @@ series, though I haven't worked it all out just yet.
 
 <!-- more -->
 
-<script src="http://talakeeper.org/lib/steller.min.js"></script>
+<script src="http://talakeeper.org/lib/require.min.js"></script>    
+<script src="http://talakeeper.org/lib/steller_v0.5.1.min.js"></script>
 <script src="http://talakeeper.org/tk3.js"></script>
+
 <div style="position:fixed;top:300px;left:48px;" id="taladisplay" hidden></div>
 <script>
+define('tk3sim', ['TK3'], function (TK3) {
+    window.showingTKSim = false;
+    window.platformMayHaveTK = (function () {
+        return /(iPhone)|(iPod)|(iPad)/.test(window.navigator.userAgent);
+    }());
 
-window.showingTKSim = false;
-window.platformMayHaveTK = (function () {
-    return /(iPhone)|(iPod)|(iPad)/.test(window.navigator.userAgent);
-}());
+    function onceOnly(fn) {
+        var result;
+        var calculated = false;
+        return function () {
+            if (calculated) {
+                return result;
+            }
 
-function onceOnly(fn) {
-    var result;
-    var calculated = false;
-    return function () {
-        if (calculated) {
+            result = fn.apply(null, arguments);
+            calculated = true;
             return result;
-        }
-
-        result = fn.apply(null, arguments);
-        calculated = true;
-        return result;
-    };
-}
-        
-var TalaPlayer = onceOnly(function () {
-    return TK3.setupPlayer({
-        width: 180,
-        div: "#taladisplay",
-        imageLocation: "http://talakeeper.org/tk3images/"
-    });
-});
-
-function togglesim() {
-    // Toggle display.
-    showsim(window.showingTKSim = !window.showingTKSim);
-}
-
-function showsim(visible) {
-    window.showingTKSim = visible;
-    if (visible) {
-        TalaPlayer();
+        };
     }
-    document.getElementById('taladisplay').hidden = !visible;
-}
 
-function talaURLClickHandler(url) {
-    return function (event) {
-        if (window.showingTKSim || !window.platformMayHaveTK) {
-            showsim(true);
-            event.preventDefault();
-            event.stopPropagation();
-            TalaPlayer().play(url);
-            return false;
-        } else {
-            return true;
-        }
+    var TalaPlayer = onceOnly(function () {
+        return TK3.setupPlayer({
+            width: 180,
+            div: "#taladisplay",
+            imageLocation: "http://talakeeper.org/tk3images/"
+        });
+    });
+
+    window.togglesim = function togglesim() {
+        // Toggle display.
+        showsim(window.showingTKSim = !window.showingTKSim);
     };
-}
+
+    function showsim(visible) {
+        window.showingTKSim = visible;
+        if (visible) {
+            TalaPlayer();
+        }
+        document.getElementById('taladisplay').hidden = !visible;
+    }
+
+    window.talaURLClickHandler = function talaURLClickHandler(url) {
+        return function (event) {
+            if (window.showingTKSim || !window.platformMayHaveTK) {
+                showsim(true);
+                event.preventDefault();
+                event.stopPropagation();
+                TalaPlayer().play(url);
+                return false;
+            } else {
+                return true;
+            }
+        };
+    };
+
+    console.log('TK3 loaded');
+});
 </script>
 
 ## What is a metronome?
@@ -286,15 +291,15 @@ Happy practice!
 [Discuss on Google+](https://plus.google.com/102694714835839603248/posts/eKHgAGTGy5r)
 
 <script>
-;(function () {
+requirejs(['tk3sim'], function () {
     var talaLinks = Array.prototype.slice.call(document.querySelectorAll('a')).filter(function (link) {
         return /^https?:\/\/talakeeper.org\/tk3/.test(link.getAttribute('href'));
     });
     talaLinks.forEach(function (link) {
         var href = link.getAttribute('href');
-        link.onclick = talaURLClickHandler(href.replace(/^https?:/, "tala:"));
+        link.onclick = window.talaURLClickHandler(href.replace(/^https?:/, "tala:"));
     });
-}());
+});
 </script>
 
 [metronomes]: http://en.wikipedia.org/wiki/Metronome

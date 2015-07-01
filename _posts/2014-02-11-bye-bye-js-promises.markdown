@@ -17,6 +17,8 @@ implemented in the `task` macro.
 
 [a macro]: https://github.com/srikumarks/cspjs
 
+<!-- more -->
+
 ## Intro
 
 My problem: I have async JS code on the server side and the client
@@ -145,8 +147,9 @@ in the code, don't. Just let it bubble up.
 ## The error model in the `task` macro
 
 The `task` macro supports `catch` and `finally` clauses, but no `try`, due
-to reason (1) in the previous section. The scope of error handling is 
-that of the task.
+to reason (1) in the previous section. <del datetime="2014-05-12T10:30:00Z+05:30">The scope of error handling is 
+that of the task.</del> The clauses are block scoped so you can reason about error
+behaviour at the block level. 
 
 ### throw 
 
@@ -266,6 +269,47 @@ For my own JS code, for the foreseeable future, it will be [cspjs] and I will
 stop debating which async management library to use, all thanks to [sweet.js]. 
 
 To others out there selling promises ... well, good luck to you!
+
+## UPDATES
+
+### 2014-03-27 v0.3.0
+
+1.  Improved semantics for control structures.  All the block control
+    structures now present their own exception handling scope. This means that
+    a `finally` clause used inside an `if` block will get to run before exiting
+    the `if` block.  This prevents many kinds of resource leaks possible with
+    the previous semantics - especially the way finally blocks behaved within
+    loops.
+
+2.  New statement `retry;`. So far, the only way in which an exception
+    can be "handled" within a `catch` block has been to return a value from it.
+    In some situations, a catch block can change some state and retry the
+    following steps if there is reason to believe that the retry may succeed.
+    For example, you may want to retry uploading a file to AWS S3 a little later
+    if it failed on first try. The `retry;` statement offers a simple way to 
+    express such code. For example
+
+``` js
+function delay(secs, callback) {
+    setTimeout(function () {
+        callback(null, true);
+    }, secs * 1000);
+}
+
+task crazyTask(x,y,z) {
+    var attempt = 0;
+    catch (e) {
+        if (++attempt < 5) {
+            await delay(30*60); // Wait for 30 minutes and try again.
+            retry;
+        } 
+        // else propagate the failure.
+    }
+
+    // Do something that may fail for no reason occasionally,
+    // like network stuff.
+}
+```
 
 [promises]: http://promises-aplus.github.io/promises-spec/
 [previous post]: /blog/2014/01/25/implementing-csp-channels-using-promises/

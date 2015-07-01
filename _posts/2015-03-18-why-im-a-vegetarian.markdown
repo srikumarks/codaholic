@@ -33,7 +33,7 @@ Carbon atoms from Oxygen atoms in the CO2 in the air. The Oxygen is returned to
 the air and the Carbon stays back in the plant. This is what plants do during
 the day, and they do the reverse during the night, when so much light isn't
 available. The reason they build up Carbon therefore is that the former process
-happens just that bit more than latter. Plants don't need so much energy to
+happens just that bit more than the latter. Plants don't need so much energy to
 sleep during the night, and they convert the surplus daytime solar energy into
 their material.
 

@@ -235,13 +235,17 @@ The humble `seq` operator can now be put to use to chain an arbitrary
 number of operations given as an array ---
 
 ``` js
+function rseq(next, first) { return seq(first, next); }
 function chain(operations) {
     var revOps = operations.slice(0).reverse();
     return function (M, input, success, failure) {
-        M.start(revOps.reduce(seq, success), input, M.end, failure);
+        M.start(revOps.reduce(rseq, success), input, M.end, failure);
     };
 }
 ```
+
+(BUGFIX: Previously chain used `seq`, but the arguments needed to be the
+other way around. Thanks to commenter for pointing out. - 23 Oct 2014)
   
 
 ## Umm ... why do we need a DSL again? ##
